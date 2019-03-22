@@ -49,7 +49,8 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                "" => "site/index"
+                "" => "site/index",
+                "site/state/<id>" => "site/state"
             ],
         ],
 

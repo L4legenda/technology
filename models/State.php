@@ -53,4 +53,5 @@ class State extends \yii\db\ActiveRecord
             'author' => 'Author',
         ];
     }
+
 }

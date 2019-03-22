@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\State;
 use Yii;
+use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -62,10 +63,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $state = State::find()->all();
-        return $this->render('index', compact("state"));
+        $query = State::find();
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 3]);
+        $state = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render('index', compact("state", "pages"));
     }
-
+    public function actionState($id){
+        $state = State::findOne($id);
+        return $this->render("state", compact("state"));
+    }
     /**
      * Login action.
      *
