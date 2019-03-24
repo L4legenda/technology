@@ -126,3 +126,8 @@ a.desc:after {
     right: 100px;
     top: 3px;
 }
+.pos-r3{
+    position: absolute;
+    right: 230px;
+    top: 3px;
+}

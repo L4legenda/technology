@@ -111,11 +111,7 @@ class SiteController extends Controller
         }
 
         $query = State::find()->where(["author"=>Yii::$app->user->getId()]);
-        if($sort = Yii::$app->request->post("sort")){
 
-            $query->orderBy($sort);
-
-        }
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 3]);
         $state = $query->offset($pages->offset)
             ->limit($pages->limit)
@@ -138,7 +134,21 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    public function actionEditstate($id){
+        $model = new StateForm();
+        $state = State::findOne($id);
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                $state->title = $model->title;
+                $state->anons = $model->anons;
+                $state->text = $model->text;
+                $state->status = $model->status;
+                $state->save();
+            }
+        }
 
+        return $this->render("editstate", compact("model", "state"));
+    }
     public function actionSingin(){
 
         if (!Yii::$app->user->isGuest) {

@@ -52,7 +52,8 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 "" => "site/index",
-                "site/state/<id>" => "site/state"
+                "site/state/<id>" => "site/state",
+                "site/editstate/<id>" => "site/editstate",
             ],
         ],
 

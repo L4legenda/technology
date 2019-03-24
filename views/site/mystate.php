@@ -8,11 +8,6 @@
 ?>
 <div class="site-mypost">
     <div class="page-container">
-        Соритровка по
-        <?php \yii\widgets\ActiveForm::begin() ?>
-        <?= \yii\helpers\Html::submitButton("Дата", ["class" => "btn btn-info", "name"=>"sort", "value"=>"date"]) ?>
-        <?= \yii\helpers\Html::submitButton("Автор", ["class" => "btn btn-info", "name"=>"sort", "value"=>"author"]) ?>
-        <?php \yii\widgets\ActiveForm::end() ?>
     </div>
     <?php foreach ($state as $s): ?>
         <div class="panel panel-default">
@@ -24,25 +19,19 @@
                 <?php elseif($s->status == 2): ?>
                     <span class="badge">Удалено</span>
                 <?php endif; ?>
-
+                <?= \yii\helpers\Html::a("Редактировать", "/site/editstate/".$s->id, ["class" => "btn btn-warning pos-r3"]) ?>
+                <?php \yii\widgets\ActiveForm::begin() ?>
                 <?php if($s->status == 1): ?>
-                    <?php \yii\widgets\ActiveForm::begin() ?>
-                        <?= \yii\helpers\Html::submitButton("Опубликовать", ["class" => "btn btn-primary pos-r2", "name" => "publicState", "value" => $s->id]) ?>
-                    <?php \yii\widgets\ActiveForm::end() ?>
+                    <?= \yii\helpers\Html::submitButton("Опубликовать", ["class" => "btn btn-primary pos-r2", "name" => "publicState", "value" => $s->id]) ?>
                 <?php elseif($s->status == 0): ?>
-                    <?php \yii\widgets\ActiveForm::begin() ?>
-                        <?= \yii\helpers\Html::submitButton("Черновик", ["class" => "btn btn-primary pos-r2", "name" => "draftState", "value" => $s->id]) ?>
-                    <?php \yii\widgets\ActiveForm::end() ?>
+                    <?= \yii\helpers\Html::submitButton("Черновик", ["class" => "btn btn-primary pos-r2", "name" => "draftState", "value" => $s->id]) ?>
                 <?php endif; ?>
                 <?php if($s->status != 2): ?>
-                    <?php \yii\widgets\ActiveForm::begin() ?>
-                        <?= \yii\helpers\Html::submitButton("Удалить", ["class" => "btn btn-danger pos-r", "name" => "deleteState", "value" => $s->id]) ?>
-                    <?php \yii\widgets\ActiveForm::end() ?>
+                    <?= \yii\helpers\Html::submitButton("Удалить", ["class" => "btn btn-danger pos-r", "name" => "deleteState", "value" => $s->id]) ?>
                 <?php else : ?>
-                    <?php \yii\widgets\ActiveForm::begin() ?>
-                        <?= \yii\helpers\Html::submitButton("Востановить", ["class" => "btn btn-success pos-r", "name" => "restoreState", "value" => $s->id]) ?>
-                    <?php \yii\widgets\ActiveForm::end() ?>
+                    <?= \yii\helpers\Html::submitButton("Востановить", ["class" => "btn btn-success pos-r", "name" => "restoreState", "value" => $s->id]) ?>
                 <?php endif; ?>
+                <?php \yii\widgets\ActiveForm::end() ?>
 
             </div>
             <div class="panel-body">
