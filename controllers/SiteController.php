@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\SinginForm;
 use app\models\State;
+use app\models\Users;
 use Yii;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
@@ -94,6 +96,28 @@ class SiteController extends Controller
         return $this->render('login', [
             'model' => $model,
         ]);
+    }
+
+    public function actionSingin(){
+
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new SinginForm();
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                $user = new Users();
+                $user->login = $model->login;
+                $user->password = md5($model->password);
+                $user->privilege = "user";
+                $user->save();
+                Yii::$app->user->login($user);
+                $this->goHome();
+            }
+
+        }
+        return $this->render("singin", compact("model"));
     }
 
     /**
