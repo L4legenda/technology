@@ -14,6 +14,8 @@
             <div class="panel-heading">
                 <?= \yii\helpers\BaseHtml::a($s->title, "site/state/".$s->id) ?>
                 <span class="badge"><?= \app\models\Users::findOne($s->author)->login ?></span>
+                <span class="badge"><?= $s->date ?></span>
+
                 <?php if($s->status == 1): ?>
                 <span class="badge">Черновик</span>
                 <?php elseif($s->status == 2): ?>

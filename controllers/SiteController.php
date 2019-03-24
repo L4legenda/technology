@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Comment;
+use app\models\CommentForm;
 use app\models\SinginForm;
 use app\models\State;
 use app\models\StateForm;
@@ -66,7 +68,32 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $query = State::find()->where(["status"=>"0"]);
+
+        if($delState = Yii::$app->request->post("deleteState")){
+            $st = State::findOne($delState);
+            $st->status = "2";
+            $st->save();
+        }
+        if($restState = Yii::$app->request->post("restoreState")){
+            $st = State::findOne($restState);
+            $st->status = "1";
+            $st->save();
+        }
+        if($pubState = Yii::$app->request->post("publicState")){
+            $st = State::findOne($pubState);
+            $st->status = "0";
+            $st->save();
+        }
+        if($draftState = Yii::$app->request->post("draftState")){
+            $st = State::findOne($draftState);
+            $st->status = "1";
+            $st->save();
+        }
+
+        $query = State::find();
+        if(Yii::$app->user->getIdentity()->privilege != "admin"){
+            $query->where(["status"=>"0"]);
+        }
         if($sort = Yii::$app->request->post("sort")){
 
             $query->orderBy($sort);
@@ -80,7 +107,21 @@ class SiteController extends Controller
     }
     public function actionState($id){
         $state = State::findOne($id);
-        return $this->render("state", compact("state"));
+
+        $model = new CommentForm();
+        $coment = new Comment();
+
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                $coment->name = $model->name;
+                $coment->text = $model->text;
+                $coment->post = $id;
+                $coment->date = date("Y-m-d");
+                $coment->save();
+            }
+        }
+        $comments = Comment::find()->where(["post"=>$id])->all();
+        return $this->render("state", compact("state", "model", "comments"));
     }
     /**
      * Login action.
@@ -200,31 +241,4 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 }
