@@ -41,6 +41,8 @@ AppAsset::register($this);
             ['label' => 'Главная', 'url' => ['/site/index']],
             Yii::$app->user->isGuest ? (['label' => 'Войти', 'url' => ['/site/login']]) : (""),
             Yii::$app->user->isGuest ? (['label' => 'Регистрация', 'url' => ['/site/singin']]) : (""),
+            Yii::$app->user->isGuest == false ? (['label' => 'Добавить статью', 'url' => ['/site/newstate']]) : (""),
+            Yii::$app->user->isGuest == false ? (['label' => 'Мои статьи', 'url' => ['/site/mystate']]) : (""),
             Yii::$app->user->isGuest == false ? (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')

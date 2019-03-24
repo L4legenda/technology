@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\SinginForm;
 use app\models\State;
+use app\models\StateForm;
 use app\models\Users;
 use Yii;
 use yii\data\Pagination;
@@ -118,6 +119,23 @@ class SiteController extends Controller
 
         }
         return $this->render("singin", compact("model"));
+    }
+
+    public function actionNewstate(){
+        $model = new StateForm();
+        if($model->load(Yii::$app->request->post())){
+            if($model->validate()){
+                $state = new State();
+                $state->title = $model->title;
+                $state->anons = $model->anons;
+                $state->text = $model->text;
+                $state->status = $model->status;
+                $state->date = date("Y-m-d");
+                $state->author = Yii::$app->user->getId();
+                $state->save();
+            }
+        }
+        return $this->render("newstate", compact("model"));
     }
 
     /**

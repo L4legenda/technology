@@ -7,7 +7,10 @@ $this->title = 'Статьи';
 <div class="site-index">
         <div class="page-container">
             Соритровка по
-            <button>Дате</button> <button>Автору</button>
+            <?php $form = \yii\widgets\ActiveForm::begin() ?>
+            <?= \yii\helpers\Html::buttonInput("Дата", ["class" => "btn btn-info"]) ?>
+            <?= \yii\helpers\Html::buttonInput("Автор", ["class" => "btn btn-info"]) ?>
+            <?php \yii\widgets\ActiveForm::end() ?>
         </div>
         <?php foreach ($state as $s): ?>
             <div class="panel panel-default">
