@@ -8,8 +8,8 @@ $this->title = 'Статьи';
         <div class="page-container">
             Соритровка по
             <?php $form = \yii\widgets\ActiveForm::begin() ?>
-            <?= \yii\helpers\Html::buttonInput("Дата", ["class" => "btn btn-info"]) ?>
-            <?= \yii\helpers\Html::buttonInput("Автор", ["class" => "btn btn-info"]) ?>
+                <?= \yii\helpers\Html::submitButton("Дата", ["class" => "btn btn-info", "name"=>"sort", "value"=>"date"]) ?>
+                <?= \yii\helpers\Html::submitButton("Автор", ["class" => "btn btn-info", "name"=>"sort", "value"=>"author"]) ?>
             <?php \yii\widgets\ActiveForm::end() ?>
         </div>
         <?php foreach ($state as $s): ?>

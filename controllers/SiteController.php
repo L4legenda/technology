@@ -66,7 +66,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $query = State::find();
+        $query = State::find()->where(["status"=>"0"]);
+        if($sort = Yii::$app->request->post("sort")){
+
+            $query->orderBy($sort);
+
+        }
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 3]);
         $state = $query->offset($pages->offset)
             ->limit($pages->limit)
