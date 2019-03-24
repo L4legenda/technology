@@ -113,3 +113,16 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.panel-heading{
+    position: relative;
+}
+.pos-r{
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+.pos-r2{
+    position: absolute;
+    right: 100px;
+    top: 3px;
+}

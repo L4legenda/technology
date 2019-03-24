@@ -87,6 +87,41 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
+    public function actionMystate(){
+
+        if($delState = Yii::$app->request->post("deleteState")){
+            $st = State::findOne($delState);
+            $st->status = "2";
+            $st->save();
+        }
+        if($restState = Yii::$app->request->post("restoreState")){
+            $st = State::findOne($restState);
+            $st->status = "1";
+            $st->save();
+        }
+        if($pubState = Yii::$app->request->post("publicState")){
+            $st = State::findOne($pubState);
+            $st->status = "0";
+            $st->save();
+        }
+        if($draftState = Yii::$app->request->post("draftState")){
+            $st = State::findOne($draftState);
+            $st->status = "1";
+            $st->save();
+        }
+
+        $query = State::find()->where(["author"=>Yii::$app->user->getId()]);
+        if($sort = Yii::$app->request->post("sort")){
+
+            $query->orderBy($sort);
+
+        }
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 3]);
+        $state = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+        return $this->render("mystate", compact("state", "pages"));
+    }
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
